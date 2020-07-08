@@ -1,3 +1,30 @@
+/* Has a file through ipfs before pinging them to the decentralised network */
+'use strict'
+
+const IPFS = require('ipfs')
+const all = require('it-all')
+
+async function main () {
+  const node = await IPFS.create()
+  const version = await node.version()
+
+  console.log('Version:', version.version)
+
+  for await (const file of await node.add({
+    path: 'hello.txt',
+    content: Buffer.from('Hello World 101')
+  })) {
+    console.log('Added file:', file.path, file.cid.toString())
+
+    const data = Buffer.concat(await all(node.cat(file.cid)))
+
+    console.log('Added file contents:', data.toString())
+  }
+}
+
+main()
+
+/*Take hash and Op_return, this hash will be pinged to all members of the bitcoin network*/
 var request = require('request');
 var Q = require('q');
 var bitcoin = require('bitcoinjs-lib');
