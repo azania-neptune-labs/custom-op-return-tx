@@ -124,9 +124,9 @@ app.post('/api/posts', verifyToken, (req, res) => {
 app.post('/api/login', (req, res) => {
     // Mock user
     const user = {
-        id: 1, 
-        username: 'colin',
-        email: 'colin@gmail.com'
+        id: 1,   /*IP Address secret */
+        username: 'colin',    /*constant Name*/
+        email: 'colin@gmail.com'/*constant address/pubkey*/
     }
 
     jwt.sign({user: user}, 'secret', {expiresIn: '30s'}, (err, token) => {
